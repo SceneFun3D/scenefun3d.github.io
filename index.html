@@ -6,7 +6,7 @@
         content="SceneFun3D: Fine-Grained Functionality and Affordance Understanding in 3D Scenes">
   <meta name="keywords" content="SceneFun3D, fine-grained segmentation, class-agnostic segmentation, 3D segmentation, point cloud segmentation, functionality understanding, affordance understanding, functional interactive elements">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SceneFun3D: Fine-Grained Functionality and Affordance Understanding in 3D Scenes</title>
+  <title>SceneFun3D</title>
 
   
   <!-- Google tag (gtag.js) -->
@@ -176,6 +176,7 @@
     <br />
     <div class="container is-max-desktop">
       <img src="./static/images/teaser.png" class="teaser-fig" alt="teaser-fig." />
+      <!-- <img src="./static/images/teaser_v7_3.png" class="teaser-fig" alt="teaser-fig." /> -->
       <div style="margin: -80px 230px 100px 230px">
       </div>
       <h2 class="subtitle has-text-centered">
@@ -267,13 +268,163 @@
   </div>
 </section>
 
-<section class="section" id="video">
+<section class="section">
   <div class="container is-max-desktop">
-    <p align="center">
-      <video controls autoplay loop poster="static/images/teaser2_poster.png">
-        <source src="static/images/teaser2.mp4" type="video/mp4">
-      </video>
-      </p>
+    <div class="columns is-centered has-text-centered">
+      <!-- <div class="column is-four-fifths"> -->
+      <div class="column">
+        <h2 class="title is-3">Motivation</h2>
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="content">
+              <video autoplay muted loop poster="static/images/robot_drawer_pic.png">
+                <source src="static/images/robot_drawer_motivation.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="column">
+            <div class="content">
+              <video autoplay muted loop poster="static/images/robot_floorlamp_pic.png">
+                <source src="static/images/robot_floorlamp_motivation.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+        
+        <div class="content has-text-justified">
+          <p>
+            Existing 3D scene understanding methods are <strong>heavily</strong> focused on understanding the scene on a <strong>coarse object level</strong> 
+            by detecting or segmenting the 3D object instances. However, identifying 3D objects is only an intermediate step towards a more fine-grained goal. In real-world applications, agents need to <strong>interact with the 
+            functional interactive elements</strong> (e.g., handles, knobs, buttons) and <strong>reason about their purpose in the scene context</strong> to successfully complete tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">The <b>SceneFun3D</b> dataset</h2>
+        <!-- <img src="./static/images/framework.png" class="teaser-fig" alt="teaser-fig."> -->
+        <div class="content has-text-justified">
+          <p>
+            We introduce SceneFun3D, the first large-scale dataset with <strong>geometrically fine-grained interaction annotations</strong> in 3D real-world indoor environments. 
+            We aim to encourage research on the following questions: 
+            <ul>
+              <li>Where are the functionalities located in 3D indoor environments and what actions they afford?</li>
+              <li>What purpose do the functionalities serve in the scene context?</li>
+              <li>Which motions are involved to interact with the functional elements?</li>
+            </ul>
+          </p>
+        </div>
+        <br />
+        <h3 class="title is-4">Functional interactive elements</h3>
+        <!-- <div class="container is-max-desktop"> -->
+        <img src="./static/images/func_ex_v6.jpg" class="teaser-fig is-max-desktop" alt="teaser-fig.">
+        <!-- </div> -->
+        <br /><br />
+        <div class="content has-text-justified">
+          <p>
+            SceneFun3D contains more than <strong>14.8k annotations of functional interactive elements</strong> in <strong>710 high-fidelity reconstructions of indoor environments</strong>. 
+            These annotations comprise a 3D instance mask followed by an affordance label. We define <strong>nine affordance categories</strong> 
+            to describe interactions afforded by common scene functionalities.
+          </p>
+        </div>
+        <br />
+        <h3 class="title is-4">Natural language task descriptions</h3>
+        <img src="./static/images/desc_ex_v6.jpg" class="teaser-fig" alt="teaser-fig.">
+        <br /><br />
+        <div class="content has-text-justified">
+          <p>
+            Beyond localizing the functionalities, it is crucial to understand the purpose that they serve in the scene context. 
+            To this end, we collect <strong>free-form diverse language descriptions of tasks</strong> that involve interacting with the scene functionalities.
+          </p>
+        </div>
+        <br />
+        <h3 class="title is-4">3D motions</h3>
+        <img src="./static/images/motion_ex_v4.jpg" class="teaser-fig" alt="teaser-fig.">
+        <br /><br />
+        <div class="content has-text-justified">
+          <p>
+            To achieve holistic scene understanding, we collect <strong>annotations of the motions</strong> required to manipulate the interactive elements.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Novel 3D Scene Understanding tasks</h2>
+        <!-- <img src="./static/images/framework.png" class="teaser-fig" alt="teaser-fig."> -->
+        <div class="content has-text-justified">
+          <p>
+            We introduce <strong>three novel 3D scene understanding tasks</strong>, namely functionality segmentation, task-driven affordance grounding and 3D motion estimation. 
+            Additionally, we propose <strong>closed- and open-vocabulary methods</strong> to tackle them and perform systematic benchmarking.
+          </p>
+        </div>
+        <br />
+        <h3 class="title is-4">Task 1: Functionality segmentation</h3>
+        <video controls loop poster="static/images/task1_pic.png">
+          <source src="static/images/task1_vid.mp4" type="video/mp4">
+        </video>
+        <br /><br />
+        <div class="content has-text-justified">
+          <p>
+            Given a 3D point cloud of a scene, the goal is to segment the functional interactive element instances and predict the associated affordance labels.
+          </p>
+        </div>
+        <br />
+        <h3 class="title is-4">Task 2: Task-driven affordance grounding</h3>
+        <video controls loop poster="static/images/task2_pic.png">
+          <source src="static/images/task2_vid.mp4" type="video/mp4">
+        </video>
+        <br /><br />
+        <div class="content has-text-justified">
+          <p>
+            Given a language task description (e.g., “open the fridge”), the goal is to predict 
+            the instance mask of the functional element that we need to interact with and the label of the action it affords.
+          </p>
+        </div>
+        <br />
+        <h3 class="title is-4">Task 3: 3D motion estimation</h3>
+        <video controls loop poster="static/images/task3_pic.png">
+          <source src="static/images/task3_vid.mp4" type="video/mp4">
+        </video>
+        <br /><br />
+        <div class="content has-text-justified">
+          <p>
+            In addition to segmenting the functionalities, the goal is to infer the motion parameters 
+            which describe how an agent can interact with the predicted functionalities. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Potential applications</h2>
+        <img src="./static/images/potential_applications.png" class="teaser-fig" alt="teaser-fig.">
+        <div class="content has-text-justified">
+          <p>
+            Our aim is to <strong>catalyze research</strong> on robotic systems, embodied AI and AR/VR applications. 
+            In robotics (left), localizing visual affordances and grounding them to natural language task 
+            descriptions is a crucial skill for embodied intelligent agents. By providing accurate 3D affordance masks,
+            we facilitate the generation of realistic human-scene interactions (right), unleashing new directions in virtual human applications.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
