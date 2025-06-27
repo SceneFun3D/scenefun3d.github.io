@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SceneFun3D - Benchmark Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./static/images/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./static/images/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="./static/images/favicon_io/site.webmanifest">
+  <style>
+    th[title] {
+      cursor: help;
+      position: relative;
+    }
+
+    th[title]::after {
+      content: " ↑";
+      font-size: 0.9em;
+      color: #444;
+    }
+
+    th[title]:hover::before {
+      content: attr(title);
+      position: absolute;
+      bottom: 125%;
+      background-color: #333;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      z-index: 10;
+      opacity: 1;
+    }
+
+    td.metric {
+      text-align: center;
+    }
+
+    tr.citation-row td {
+      font-size: 0.72em;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      color: #666;
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+<section class="section">
+  <div class="container is-max-desktop">
+    <h1 class="title is-2 has-text-centered">SceneFun3D Benchmark Results</h1>
+
+    <div class="content">
+      <div class="has-text-centered" style="margin-bottom: 2rem; font-size: 0.9rem;">
+        <span>🔄 Results are updated in real-time from the official <a href="https://eval.ai/web/challenges/challenge-page/2466/leaderboard" target="_blank">EvalAI leaderboard</a>.</span>
+      </div>
+      <!-- Task 1 -->
+      <h2 class="title is-4">Functionality Segmentation (test split)</h2>
+      <!-- <div class="has-text-centered" style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <span>🔄 This table updates every 60 seconds</span>
+      </div> -->
+      <table class="table is-fullwidth is-hoverable" id="leaderboard-table">
+        <thead>
+          <tr id="metric-headers">
+            <th>Team/Method</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr><td colspan="5">Loading...</td></tr>
+        </tbody>
+      </table>
+
+      <br><br>
+
+      <!-- Task 2 -->
+      <h2 class="title is-4">Task-Driven Affordance Grounding (test split)</h2>
+      <!-- <div class="has-text-centered" style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <span>🔄 This table updates every 60 seconds</span>
+      </div> -->
+      <table class="table is-fullwidth is-hoverable" id="leaderboard2-table">
+        <thead>
+          <tr id="metric-headers2">
+            <th>Team/Method</th>
+          </tr>
+        </thead>
+        <tbody id="table-body2">
+          <tr><td colspan="5">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="has-text" style="margin-top: 2rem; font-size: 1rem;">
+      Before making a submission to the benchmark, please refer to the <a href="https://scenefun3d.github.io/documentation/benchmarks/guidelines" target="_blank">submission instructions</a>.
+    </p>
+
+    <br><br>
+
+    <div class="has-text-centered">
+      <a href="index.html" class="button is-link is-light">← Back to Project Page</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const teamNotes = {
+    "Fun3DU": {
+      authors: [
+        "Jaime Corsetti", "Francesco Giuliari", "Alice Fasoli", "Davide Boscaini", "Fabio Poiesi"
+      ],
+      title: "Fun3DU: Functionality Understanding and Segmentation in 3D Scenes",
+      venue: "CVPR 2025 Highlight",
+      url: "https://jcorsetti.github.io/fun3du"
+    }
+  };
+
+  function shortenAuthors(authors) {
+    return authors.map(name => {
+      const parts = name.trim().split(" ");
+      const last = parts.pop();
+      const initials = parts.map(p => p[0] + ".").join(" ");
+      return `${initials} ${last}`;
+    }).join(", ");
+  }
+
+  function renderLeaderboard(data, tableId, headerId, notesMap) {
+    const tbody = document.getElementById(tableId);
+    const headerRow = document.getElementById(headerId);
+    tbody.innerHTML = "";
+
+    const labels = data.results[0].leaderboard__schema.labels;
+    const metadata = data.results[0].leaderboard__schema.metadata;
+
+    if (headerRow.children.length === 1) {
+      labels.forEach(label => {
+        const th = document.createElement("th");
+        th.textContent = label;
+        th.setAttribute("title", metadata[label]?.description || "Metric");
+        headerRow.appendChild(th);
+      });
+    }
+
+    const results = data.results.filter(r => r.result && r.result.length === labels.length);
+    const best = labels.map((_, i) => Math.max(...results.map(r => r.result[i])));
+
+    results.forEach(entry => {
+      const team = entry.submission__participant_team__team_name || "Unknown";
+      const row = document.createElement("tr");
+
+      let teamDisplay = team;
+      if (notesMap[team] && notesMap[team].url) {
+        teamDisplay = `<a href="${notesMap[team].url}" target="_blank" style="text-decoration: underline;">${team}</a>`;
+      }
+
+      let html = `<td style="text-align: left;">${teamDisplay}</td>`;
+      entry.result.forEach((val, i) => {
+        const formatted = val.toFixed(2);
+        html += `<td class="metric">${val === best[i] ? `<b>${formatted}</b>` : formatted}</td>`;
+      });
+
+      row.innerHTML = html;
+      tbody.appendChild(row);
+
+      if (notesMap[team]) {
+        const noteRow = document.createElement("tr");
+        noteRow.classList.add("citation-row");
+        const citation = `${shortenAuthors(notesMap[team].authors)}. "${notesMap[team].title}". ${notesMap[team].venue}`;
+        noteRow.innerHTML = `<td colspan="${labels.length + 1}">${citation}</td>`;
+        tbody.appendChild(noteRow);
+      }
+    });
+  }
+
+  async function fetchAndRender(url, tableId, headerId) {
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      renderLeaderboard(data, tableId, headerId, teamNotes);
+    } catch (error) {
+      document.getElementById(tableId).innerHTML = `<tr><td colspan="5">Error loading leaderboard: ${error.message}</td></tr>`;
+    }
+  }
+
+  function loadLeaderboards() {
+    fetchAndRender("https://teal-heliotrope-3b9297.netlify.app/.netlify/functions/leaderboard", "table-body", "metric-headers");
+    fetchAndRender("https://teal-heliotrope-3b9297.netlify.app/.netlify/functions/leaderboard2", "table-body2", "metric-headers2");
+  }
+
+  loadLeaderboards();
+  setInterval(loadLeaderboards, 60000);
+</script>
+</body>
+</html>
